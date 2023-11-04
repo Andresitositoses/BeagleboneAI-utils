@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "main.py",
+      "type": "python",
+      "python": "/usr/local/bin/python3.9",
+      "program": "/home/debian/BeagleBoneAI/main.py",
+      "request": "launch",
+      //"args": [
+        //"--args"
+      //],
+      "justMyCode": true
+    }
+  ]
+}
