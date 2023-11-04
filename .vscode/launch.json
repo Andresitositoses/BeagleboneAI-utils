@@ -5,7 +5,7 @@
       "name": "main.py",
       "type": "python",
       "python": "/usr/local/bin/python3.9",
-      "program": "/home/debian/BeagleBoneAI/main.py",
+      "program": "/home/debian/BeagleboneAI-utils/main.py",
       "request": "launch",
       //"args": [
         //"--args"
