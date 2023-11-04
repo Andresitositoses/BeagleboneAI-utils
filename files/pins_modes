@@ -1,0 +1,92 @@
+P8_1       | 1.8V
+P8_2       | 1.8V
+P8_3       | SYS_5V
+P8_4       | SYS_5V
+P8_5       | SYS_5V
+P8_6       | SYS_5V
+P8_7       | gpio uart5_ctsn gpmc_advn_ale lcddata8
+P8_8       | gpio uart5_rtsn gpmc_advn_ale lcddata9
+P8_9       | gpio uart4_rxd pruin gpmc_be1n lcddata10
+P8_10      | gpio uart4_txd pruout gpmc_csn0 lcddata11
+P8_11      | gpio gpmc_wait0 lcddata12
+P8_12      | gpio gpmc_wpn lcddata13
+P8_13      | gpio ehrpwm1B gpmc_wait0 lcddata14
+P8_14      | gpio ehrpwm1A gpmc_csn0 lcddata15
+P8_15      | gpio ehrpwm2A gpmc_a8 mcasp0_ahclkx
+P8_16      | gpio ehrpwm2B gpmc_a9 mcasp0_aclkr
+P8_17      | gpio gpmc_a0 mcasp0_axr0
+P8_18      | gpio gpmc_a1 mcasp0_fsx
+P8_19      | gpio gpmc_a2 mcasp0_axr1
+P8_20      | gpio gpmc_a3 mcasp0_aclkr
+P8_21      | gpio gpmc_a4 mcasp0_axr2
+P8_22      | gpio gpmc_a5 mcasp0_aclkx
+P8_23      | gpio gpmc_a6 mcasp0_fsx
+P8_24      | gpio gpmc_a7 mcasp0_axr0
+P8_25      | gpio gpmc_a8 mcasp0_ahclkx
+P8_26      | gpio gpmc_a9 mcasp0_aclkr
+P8_27      | gpio gpmc_a10 mcasp0_axr2
+P8_28      | gpio gpmc_a11 mcasp0_ahclkx
+P8_29      | gpio gpmc_a12 mcasp0_aclkr
+P8_30      | gpio gpmc_a13 mcasp0_fsx
+P8_31      | gpio gpmc_a14 mcasp0_axr0
+P8_32      | gpio gpmc_a15 mcasp0_aclkx
+P8_33      | gpio gpmc_a16 mcasp0_ahclkr
+P8_34      | gpio gpmc_a17 mcasp0_aclkr
+P8_35      | gpio gpmc_a18 mcasp0_fsx
+P8_36      | gpio gpmc_a19 mcasp0_axr1
+P8_37      | gpio gpmc_a20 mcasp0_ahclkx
+P8_38      | gpio gpmc_a21 mcasp0_aclkr
+P8_39      | gpio gpmc_a22 mcasp0_axr0
+P8_40      | gpio gpmc_a23 mcasp0_aclkx
+P8_41      | gpio gpmc_a24 mcasp0_ahclkr
+P8_42      | gpio gpmc_a25 mcasp0_aclkr
+P8_43      | gpio gpmc_a26 mcasp0_fsx
+P8_44      | gpio gpmc_a27 mcasp0_axr1
+P8_45      | gpio gpmc_a28 mcasp0_ahclkx
+P8_46      | GND
+P9_1       | 3.3V
+P9_2       | 3.3V
+P9_3       | VDD_RTC
+P9_4       | VDD_RTC
+P9_5       | VDD_RTC
+P9_6       | VDD_RTC
+P9_7       | SYS_5V
+P9_8       | SYS_5V
+P9_9       | SYS_RESETn
+P9_10      | GND
+P9_11      | gpio pwm pruin ehrpwm1A gpmc_a18 mcasp0_aclkr
+P9_12      | gpio pwm pruout ehrpwm1B gpmc_a19 mcasp0_fsr
+P9_13      | gpio pwm pruin ehrpwm2A gpmc_a20 mcasp0_axr1
+P9_14      | gpio pwm pruout ehrpwm2B gpmc_a21 mcasp0_ahclkx
+P9_15      | gpio pruin ehrpwm1_tripzone ehrpwm2_tripzone gpmc_a22 mcasp0_ahclkr
+P9_16      | gpio pruout ehrpwm1A_s ehrpwm2A_tripzone gpmc_a23 mcasp0_fsx
+P9_17      | gpio pruin ehrpwm1A_tripzone ehrpwm2A_s gpmc_a24 mcasp0_axr2
+P9_18      | gpio pruout ehrpwm1B_s ehrpwm2B_tripzone gpmc_a25 mcasp0_aclkx
+P9_19      | gpio pruin ehrpwm0_tripzone ehrpwm2B_s gpmc_a26 mcasp0_fsx
+P9_20      | gpio pruout ehrpwm0A ehrpwm2A_tripzone gpmc_a27 mcasp0_axr0
+P9_21      | gpio pruin ehrpwm0B ehrpwm2B_tripzone gpmc_a28 mcasp0_ahclkx
+P9_22      | gpio pruout ehrpwm0A_s gpmc_a0 mcasp0_fsr
+P9_23      | gpio pruin ehrpwm0_tripzone gpmc_a1 mcasp0_ahclkr
+P9_24      | gpio pruout ehrpwm0B_s gpmc_a2 mcasp0_axr1
+P9_25      | gpio ehrpwm0A gpmc_a3 mcasp0_aclkr
+P9_26      | gpio ehrpwm0B gpmc_a4 mcasp0_axr2
+P9_27      | gpio gpmc_a5 mcasp0_aclkx
+P9_28      | gpio gpmc_a6 mcasp0_fsx
+P9_29      | gpio gpmc_a7 mcasp0_axr0
+P9_30      | gpio gpmc_a8 mcasp0_ahclkx
+P9_31      | gpio gpmc_a9 mcasp0_aclkr
+P9_32      | GND
+P9_33      | gpio
+P9_34      | gpio
+P9_35      | gpio
+P9_36      | gpio
+P9_37      | gpio
+P9_38      | gpio
+P9_39      | gpio
+P9_40      | gpio
+P9_41      | gpio uart4_rxd pruin ehrpwm0_tripzone gpmc_a17 mcasp0_axr1
+P9_42      | gpio uart4_txd pruout ehrpwm0_tripzone gpmc_a16 mcasp0_axr0
+P9_43      | GND
+P9_44      | gpio
+P9_45      | gpio
+P9_46      | gpio
