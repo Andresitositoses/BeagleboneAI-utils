@@ -8,6 +8,9 @@ GREEN = "\033[32m"
 CYAN = "\033[36m"
 BLUE = "\033[34m"
 YELLOW = "\033[33m"
+RED = "\033[31m"
+ORANGE = "\033[93m"
+BROWN = "\033[33m"
 
 # Dimensions
 PINOUT_ZONE_SIZE = 46
@@ -19,26 +22,40 @@ def load_pinout_config(config_file):
     '''
     df = open(config_file, "r")
 
-    p8_modes = []
-    p9_modes = []
+    p8_pins = [] # List of tuples ([modes], [buses])
+    p9_pins = [] # List of tuples ([modes], [buses])
 
     # Config file lines
     for index, line in enumerate(df.readlines()):
         if (index < PINOUT_ZONE_SIZE):
-            p8_entry = []
-            for mode in line.split("|")[1].split(" "):
-                p8_entry.append(mode)
-            p8_entry[-1] = p8_entry[-1][:-1] # Remove last item's \n
-            p8_modes.append(p8_entry[1:]) # Remove first space
+            p8_entry_modes = []
+            for mode in line.split("|")[1].split("@")[0].split(" "):
+                p8_entry_modes.append(mode)
+            p8_entry_buses = []
+            try:
+                for bus in line.split("|")[1].split("@")[1].split(" "):
+                    p8_entry_buses.append(bus)
+            except:
+                p8_entry_modes[-1] = p8_entry_modes[-1][:-1] # Remove last item's \n (There are not buses, so the '\n' character is on the last mode)
+            else:
+                p8_entry_buses[-1] = p8_entry_buses[-1][:-1] # Remove last item's \n (The '\n' is on the last bus)
+            p8_pins.append((p8_entry_modes[1:], p8_entry_buses)) # Remove first space
 
         else:
-            p9_entry = []
-            for mode in line.split("|")[1].split(" "):
-                p9_entry.append(mode)
-            p9_entry[-1] = p9_entry[-1][:-1] # Remove last item's \n
-            p9_modes.append(p9_entry[1:]) # Remove first space
+            p9_entry_modes = []
+            for mode in line.split("|")[1].split("@")[0].split(" "):
+                p9_entry_modes.append(mode)
+            p9_entry_buses = []
+            try:
+                for bus in line.split("|")[1].split("@")[1].split(" "):
+                    p9_entry_buses.append(bus)
+            except:
+                p9_entry_modes[-1] = p9_entry_modes[-1][:-1] # Remove last item's \n (There are not buses, so the '\n' character is on the last mode)
+            else:
+                p9_entry_buses[-1] = p9_entry_buses[-1][:-1] # Remove last item's \n (The '\n' is on the last bus)
+            p9_pins.append((p9_entry_modes[1:], p9_entry_buses)) # Remove first space
 
-    return p8_modes, p9_modes
+    return p8_pins, p9_pins
 
 class PinsManager():
     
@@ -73,16 +90,18 @@ class PinsManager():
         # Useful to calculate the number of spaces to insert to each row in order to ajustate the showed info
         max_spaces = 0
         for i in range(PINOUT_ZONE_SIZE):
-            aux_len = len(str(self.p9_pins[i]))
+            aux_len = len(str(self.p9_pins[i][0]))
             if aux_len > max_spaces:
                 max_spaces = aux_len
         
         for i in range(PINOUT_ZONE_SIZE):
-            aux_len = len(str(self.p9_pins[i]))
+            aux_len = len(str(self.p9_pins[i][0]))
+            left_color = self.get_color(self.p9_pins[i][0])
+            right_color = self.get_color(self.p8_pins[i][0])
             if (len(str(i+1)) < 2):
-                print(" " * (max_spaces - aux_len) + f"{self.p9_pins[i]}  |   {PURPLE}P9_{i+1} --- P8_{i+1}{WHITE}   |  {self.p8_pins[i]}")
+                print(" " * (max_spaces - aux_len) + f"{left_color}{self.p9_pins[i][0]}{WHITE}  |   {PURPLE}P9_{i+1} --- P8_{i+1}{WHITE}   |  {right_color}{self.p8_pins[i][0]}{WHITE}")
             else:
-                print(" " * (max_spaces - aux_len) + f"{self.p9_pins[i]}  |  {PURPLE}P9_{i+1} --- P8_{i+1}{WHITE}  |  {self.p8_pins[i]}")
+                print(" " * (max_spaces - aux_len) + f"{left_color}{self.p9_pins[i][0]}{WHITE}  |  {PURPLE}P9_{i+1} --- P8_{i+1}{WHITE}  |  {right_color}{self.p8_pins[i][0]}{WHITE}")
 
     def show_P8_pinout(self):
         '''
@@ -111,3 +130,26 @@ class PinsManager():
         The ones which are showed with green color indicates they are activated.
         '''
         print("")
+
+    def get_color(self, modes):
+        '''
+        Returns the color of the mode passed as parameter.
+        '''
+        if "GPIO" in modes[0]:
+            return GREEN
+        elif "AIN" in modes[0]:
+            return CYAN
+        elif "PWM" in modes[0]:
+            return YELLOW
+        elif "UART" in modes[0]:
+            return PURPLE
+        elif "SPI" in modes[0]:
+            return RED
+        elif "I2C" in modes[0]:
+            return BLUE
+        elif "VOUT" in modes[0]:
+            return ORANGE
+        elif "GND" in modes[0]:
+            return BROWN
+        else:
+            return WHITE
