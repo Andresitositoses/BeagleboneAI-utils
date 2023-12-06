@@ -1,5 +1,5 @@
 import Adafruit_BBIO
-import Adafruit_BBIO.GPIO as GPIO
+import Adafruit_BBIO.GPIO as GPIO # Quizá pueda utilizar esto especificando el puerto del pin
 import src.colors as colors
 
 # Dimensions
@@ -74,6 +74,15 @@ def get_color(mode):
     else:
         return colors.WHITE
 
+def list_has_element(list, elem):
+    '''
+    Returns True if the list passed as parameter has the element passed as parameter.
+    '''
+    for list_i in list:
+        if list_i in elem:
+            return True
+    return False
+
 class PinsManager():
     
     def __init__(self):
@@ -87,65 +96,90 @@ class PinsManager():
     def show_pinout(self, filtered_pins=None, format=TWO_COLUMNS_FORMAT):
 
         if format == ONE_COLUMN_FORMAT:
+
             # Useful to calculate the number of spaces to insert to each row in order to ajustate the showed info
-            max_spaces = 0
+            p9_left_spaces = 0
             for i in range(PINOUT_ZONE_SIZE):
                 if filtered_pins:
-                    p9_i_list = [pin for pin in filtered_pins if pin in str(self.p9_pins[i][0])]
+                    p9_left_i_list = [pin for pin in self.p9_pins[i][0] if list_has_element(filtered_pins, pin)]
                 else:
-                    p9_i_list = self.p9_pins[i][0]
-                aux_len = len(" ".join(p9_i_list))
-                if aux_len > max_spaces:
-                    max_spaces = aux_len
+                    p9_left_i_list = self.p9_pins[i][0]
+                aux_len = len(" ".join(p9_left_i_list))
+                if aux_len > p9_left_spaces:
+                    p9_left_spaces = aux_len
             
+            print("\n\n")
             for i in range(PINOUT_ZONE_SIZE):
-
                 # Filter to pins in filtered_pins
                 if filtered_pins is not None:
-                    p9_i_list = [pin for pin in filtered_pins if pin in str(self.p9_pins[i][0])]
-                    p8_i_list = [pin for pin in filtered_pins if pin in str(self.p8_pins[i][0])]
+                    p9_left_i_list = [pin for pin in self.p9_pins[i][0] if list_has_element(filtered_pins, pin)]
+                    p8_left_i_list = [pin for pin in self.p8_pins[i][0] if list_has_element(filtered_pins, pin)]
                 else:
-                    p9_i_list = self.p9_pins[i][0]
-                    p8_i_list = self.p8_pins[i][0]
+                    p9_left_i_list = self.p9_pins[i][0]
+                    p8_left_i_list = self.p8_pins[i][0]
 
-                aux_len = len(" ".join(p9_i_list))
-                left_painted_list = colors.get_painted_list(get_color, p9_i_list)
-                right_painted_list = colors.get_painted_list(get_color, p8_i_list)
+                aux_len = len(" ".join(p9_left_i_list))
+                left_painted_list = colors.get_painted_list(get_color, p9_left_i_list)
+                right_painted_list = colors.get_painted_list(get_color, p8_left_i_list)
                 
-                if (len(str(i+1)) < 2):
-                    print(" " * (max_spaces - aux_len) + " " * MARGIN_SHOW + " ".join(left_painted_list) + f"  |   {colors.PURPLE}P9_{i+1} --- P8_{i+1}{colors.WHITE}   |  " + " ".join(right_painted_list))
-                else:
-                    print(" " * (max_spaces - aux_len) + " " * MARGIN_SHOW + " ".join(left_painted_list) + f"  |  {colors.PURPLE}P9_{i+1} --- P8_{i+1}{colors.WHITE}  |  " + " ".join(right_painted_list))
-        
+                print(" " * (p9_left_spaces - aux_len) + " " * MARGIN_SHOW + " ".join(left_painted_list) + "  |" + " " * (3 - len(str(i + 1)) + 1) + f"{colors.PURPLE}P9_{i+1} --- P8_{i+1}{colors.WHITE}"
+                    + " " * (3 - len(str(i + 1)) + 1) + "|  " + " ".join(right_painted_list))
+
         else: # TWO_COLUMN_FORMAT 
-            # Useful to calculate the number of spaces to insert to each row in order to ajustate the showed info
-            max_spaces = 0
-            for i in range(PINOUT_ZONE_SIZE):
-                if filtered_pins:
-                    p9_i_list = [pin for pin in filtered_pins if pin in str(self.p9_pins[i][0])]
-                else:
-                    p9_i_list = self.p9_pins[i][0]
-                aux_len = len(" ".join(p9_i_list))
-                if aux_len > max_spaces:
-                    max_spaces = aux_len
 
-            for i in range(PINOUT_ZONE_SIZE):
+            p9_left_spaces = 0
+            p9_right_spaces = 0
+            p8_left_spaces = 0
+            for i in range(0, PINOUT_ZONE_SIZE, 2):
                 # Filter to pins in filtered_pins
                 if filtered_pins is not None:
-                    p9_i_list = [pin for pin in filtered_pins if pin in str(self.p9_pins[i][0])]
-                    p8_i_list = [pin for pin in filtered_pins if pin in str(self.p8_pins[i][0])]
+                    p9_left_i_list = [pin for pin in self.p9_pins[i][0] if list_has_element(filtered_pins, pin)]
+                    p9_right_i_list = [pin for pin in self.p9_pins[i+1][0] if list_has_element(filtered_pins, pin)]
+                    p8_left_i_list = [pin for pin in self.p8_pins[i][0] if list_has_element(filtered_pins, pin)]
                 else:
-                    p9_i_list = self.p9_pins[i][0]
-                    p8_i_list = self.p8_pins[i][0]
+                    p9_left_i_list = self.p9_pins[i][0]
+                    p9_right_i_list = self.p9_pins[i+1][0]
+                    p8_left_i_list = self.p8_pins[i][0]
 
-                aux_len = len(" ".join(p9_i_list))
-                left_painted_list = colors.get_painted_list(get_color, p9_i_list)
-                right_painted_list = colors.get_painted_list(get_color, p8_i_list)
-                
-                if (len(str(i+1)) < 2):
-                    print(" " * (max_spaces - aux_len) + " " * MARGIN_SHOW + " ".join(left_painted_list) + f"  |   {colors.PURPLE}P9_{i+1} --- P8_{i+1}{colors.WHITE}   |  " + " ".join(right_painted_list))
+                aux_len = len(" ".join(p9_left_i_list))
+                if aux_len > p9_left_spaces:
+                    p9_left_spaces = aux_len
+
+                aux_len = len(" ".join(p9_right_i_list))
+                if aux_len > p9_right_spaces:
+                    p9_right_spaces = aux_len
+
+                aux_len = len(" ".join(p8_left_i_list))
+                if aux_len > p8_left_spaces:
+                    p8_left_spaces = aux_len
+
+            print("\n\n")
+            for i in range(0, PINOUT_ZONE_SIZE, 2):
+                # Filter to pins in filtered_pins
+                if filtered_pins is not None:
+                    #p9_left_i_list = [pin for pin in self.p9_pins[i][0] if pin in str(filtered_pins)] # if filtered_pins has pin
+                    p9_left_i_list = [pin for pin in self.p9_pins[i][0] if list_has_element(filtered_pins, pin)]
+                    p9_right_i_list = [pin for pin in self.p9_pins[i+1][0] if list_has_element(filtered_pins, pin)]
+                    p8_left_i_list = [pin for pin in self.p8_pins[i][0] if list_has_element(filtered_pins, pin)]
+                    p8_right_i_list = [pin for pin in self.p8_pins[i+1][0] if list_has_element(filtered_pins, pin)]
                 else:
-                    print(" " * (max_spaces - aux_len) + " " * MARGIN_SHOW + " ".join(left_painted_list) + f"  |  {colors.PURPLE}P9_{i+1} --- P8_{i+1}{colors.WHITE}  |  " + " ".join(right_painted_list))
+                    p9_left_i_list = self.p9_pins[i][0]
+                    p9_right_i_list = self.p9_pins[i+1][0]
+                    p8_left_i_list = self.p8_pins[i][0]
+                    p8_right_i_list = self.p8_pins[i+1][0]
+
+                p9_left_painted_list = colors.get_painted_list(get_color, p9_left_i_list)
+                p9_right_painted_list = colors.get_painted_list(get_color, p9_right_i_list)
+                p8_left_painted_list = colors.get_painted_list(get_color, p8_left_i_list)
+                p8_right_painted_list = colors.get_painted_list(get_color, p8_right_i_list)
+
+                
+                print(" " * (p9_left_spaces - len(" ".join(p9_left_i_list))) + " " * MARGIN_SHOW + " ".join(p9_left_painted_list) + "  |" + " " * (3 - len(str(i + 1)) + 1) + f"{colors.PURPLE}{i+1} -- P9 -- {i+2}{colors.WHITE}"
+                    + " " * (3 - len(str(i+2 + 1)) + 1) + "|  " + " ".join(p9_right_painted_list)
+                    + " " * MARGIN_SHOW + " " * (p9_right_spaces - len(" ".join(p9_right_i_list))) + "."
+                    + " " * (p8_left_spaces - len(" ".join(p8_left_i_list))) + " " * MARGIN_SHOW + " ".join(p8_left_painted_list) + "  |" + " " * (3 - len(str(i + 1)) + 1) + f"{colors.PURPLE}{i+1} -- P8 -- {i+2}{colors.WHITE}"
+                    + " " * (3 - len(str(i+2 + 1)) + 1) + "|  " + " ".join(p8_right_painted_list))            
+            
 
     def show_P8_pinout(self):
         '''
